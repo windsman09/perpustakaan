@@ -40,3 +40,14 @@ $routes->get('test', function () {
 });
 
 $routes->get('test2', 'Test::index');
+
+$routes->get('dbtest', function () {
+    $db = \Config\Database::connect();
+
+    if ($db->connID) {
+        return 'Database connected';
+    }
+
+    return 'Database NOT connected';
+});
+

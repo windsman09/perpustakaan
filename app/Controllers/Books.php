@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Models\BookModel;
@@ -48,4 +47,17 @@ class Books extends BaseController
         $this->bookModel->delete($id);
         return redirect()->to('/books');
     }
+    public function edit($id)
+{
+    return view('books/edit', [
+        'book' => $this->bookModel->find($id)
+    ]);
+}
+
+public function update($id)
+{
+    $this->bookModel->update($id, $this->request->getPost());
+    return redirect()->to('/books');
+}
+
 }

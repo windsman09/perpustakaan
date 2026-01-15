@@ -8,9 +8,8 @@ class Auth extends BaseController
 {
     public function login()
     {
-        // Jika sudah login, langsung ke daftar buku
         if (session()->get('user_id')) {
-            return redirect()->to('books'); // ❌ /books
+            return redirect()->to('/books');
         }
 
         return view('auth/login');
@@ -21,25 +20,26 @@ class Auth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        $user = (new UserModel())->where('username', $username)->first();
+        $user = (new UserModel())
+            ->where('username', $username)
+            ->first();
 
-        if ($user && $user['password'] === $password) { // plain text (UAS)
+        if ($user && $user['password'] === $password) {
             session()->set([
                 'user_id'   => $user['id'],
                 'username'  => $user['username'],
                 'logged_in' => true
             ]);
 
-            return redirect()->to('books'); // ❌ /books
+            return redirect()->to('/books');
         }
 
-        return redirect()->back()->with('error', 'Login gagal. Periksa username/password.');
+        return redirect()->back()->with('error', 'Login gagal');
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('login'); // ❌ /login
+        return redirect()->to('/login');
     }
 }
-log_message('error', 'TES LOG AUTH LOGIN');
